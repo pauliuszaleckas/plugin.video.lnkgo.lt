@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.lnkgo.lt" version="0.1.0" name="LNK GO" provider-name="pauliusz">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="main.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">Watch shows from LNK GO</summary>
+        <summary lang="lt">Žiūrėti laidas iš LNK GO</summary>
+        <description lang="en">On LNK GO you can watch most of LNK's TV programs.</description>
+        <description lang="lt">LNK GO galite žiūrėti daugumą LNK TV laidų.</description>
+        <license>GPLv2</license>
+        <platform>all</platform>
+        <language>lt</language>
+        <email>paulius.zaleckas@gmail.com</email>
+        <source>https://github.com/pauliuszaleckas/plugin.video.lnkgo.lt</source>
+    </extension>
+</addon>
+

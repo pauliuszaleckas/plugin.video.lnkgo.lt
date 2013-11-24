@@ -1,0 +1,11 @@
+# Python byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# VIM stuff
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
