@@ -1,3 +1,21 @@
+#
+#  Copyright (C) 2013  Paulius Zaleckas <paulius.zaleckas@gmail.com>
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License along
+#  with this program; if not, write to the Free Software Foundation, Inc.,
+#  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
 import urlparse
 import urllib
 import re
@@ -32,7 +50,7 @@ def INDEX(idx, page):
 		#link = PATH + '?prg_idx=' + str(idx) + '&page=' + earlier[0]
 		#item = xbmcgui.ListItem('Naujesnes')
 		#xbmcplugin.addDirectoryItem(HANDLE, link, item, True)
-	match = re.compile('<div class="image">\s*<div>\s*<a href="/video-perziura/(\d+?)/.+?"><img src="(.+?)" alt=".*?" /><span class="videoPlay">&nbsp;</span></a>\s*</div>\s*</div>\s*<div class="info">\s*<div class="title">\s*<a href=".+?".*?>(.+?)&nbsp;<img src="img/arrow.link.png" alt="" /></a>').findall(link)
+	match = re.compile('<div class="image">\s*<div>\s*<a href="/video-perziura/(\d+?)/.+?"><img src="(.+?)\?.+?" alt=".*?" /><span class="videoPlay">&nbsp;</span></a>\s*</div>\s*</div>\s*<div class="info">\s*<div class="title">\s*<a href=".+?".*?>(.+?)&nbsp;<img src="img/arrow.link.png" alt="" /></a>').findall(link)
 	for vidx,image,name in match:
 		link = PATH + '?vidx=' + str(vidx)
 		item = xbmcgui.ListItem(name, iconImage=image)
@@ -54,8 +72,8 @@ def play_video(video):
 		item = xbmcgui.ListItem(path=vurl[0])
 		xbmcplugin.setResolvedUrl(HANDLE, True, item)
 
-def PLAY(video):
-	response = urllib.urlopen(VIDEO_URL + video)
+def PLAY(vidx):
+	response = urllib.urlopen(VIDEO_URL + vidx)
 	link=response.read()
 	response.close()
 	vurl=re.compile('var url\s+= \'(.*?)\';').findall(link)
