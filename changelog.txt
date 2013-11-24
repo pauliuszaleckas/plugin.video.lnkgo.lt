@@ -1,2 +1,5 @@
+[B]Version 0.1.1[/B]
+- Better quality video icons
+
 [B]Version 0.1.0[/B]
 - First working version
