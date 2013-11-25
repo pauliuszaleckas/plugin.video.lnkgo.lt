@@ -27,7 +27,6 @@ BASE_URL = 'http://lnkgo.lt/'
 CATEGORY_URL = BASE_URL + 'video-kategorija/'
 VIDEO_URL = BASE_URL + 'video-perziura/'
 ORDER = '&orderBy=created'
-USER_AGENT = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3'
 
 def CATEGORY():
 	response = urllib.urlopen(CATEGORY_URL)
@@ -44,23 +43,12 @@ def INDEX(idx, page):
 	response = urllib.urlopen(CATEGORY_URL + idx + '?page=' + page + ORDER)
 	link = response.read()
 	response.close()
-	#earlier = re.compile('<span><a href="/video-kategorija/\d+?\?page=(\d+?)&amp;orderBy=created" class="prev">Ankstesnis</a></span>').findall(link)
-	#print earlier
-	#if len(earlier):
-		#link = PATH + '?prg_idx=' + str(idx) + '&page=' + earlier[0]
-		#item = xbmcgui.ListItem('Naujesnes')
-		#xbmcplugin.addDirectoryItem(HANDLE, link, item, True)
 	match = re.compile('<div class="image">\s*<div>\s*<a href="/video-perziura/(\d+?)/.+?"><img src="(.+?)\?.+?" alt=".*?" /><span class="videoPlay">&nbsp;</span></a>\s*</div>\s*</div>\s*<div class="info">\s*<div class="title">\s*<a href=".+?".*?>(.+?)&nbsp;<img src="img/arrow.link.png" alt="" /></a>').findall(link)
 	for vidx,image,name in match:
 		link = PATH + '?vidx=' + str(vidx)
 		item = xbmcgui.ListItem(name, iconImage=image)
 		item.setProperty('IsPlayable', 'true')
 		xbmcplugin.addDirectoryItem(HANDLE, link, item)
-	#later = re.compile('<span><a href="/video-kategorija/\d+?\?page=(\d+?)&amp;orderBy=created" class="next">Kitas</a></span>').findall(link)
-	#if len(later):
-		#link = PATH + '?prg_idx=' + str(idx) + '&page=' + later[0]
-		#item = xbmcgui.ListItem('Senesnes')
-		#xbmcplugin.addDirectoryItem(HANDLE, link, item, True)
 	xbmcplugin.endOfDirectory(HANDLE)
 
 def play_video(video):
