@@ -41,9 +41,9 @@ def CATEGORY():
 		
 def INDEX(idx, page):
 	response = urllib.urlopen(CATEGORY_URL + idx + '?page=' + page + ORDER)
-	link = response.read()
+	html = response.read()
 	response.close()
-	match = re.compile('<div class="image">\s*<div>\s*<a href="/video-perziura/(\d+?)/.+?"><img src="(.+?)\?.+?" alt=".*?" /><span class="videoPlay">&nbsp;</span></a>\s*</div>\s*</div>\s*<div class="info">\s*<div class="title">\s*<a href=".+?".*?>(.+?)&nbsp;<img src="img/arrow.link.png" alt="" /></a>').findall(link)
+	match = re.compile('<div class="image">\s*<div>\s*<a href="/video-perziura/(\d+?)/.+?"><img src="(.+?)\?.+?" alt=".*?" /><span class="videoPlay">&nbsp;</span></a>\s*</div>\s*</div>\s*<div class="info">\s*<div class="title">\s*<a href=".+?".*?>(.+?)&nbsp;<img src="img/arrow.link.png" alt="" /></a>').findall(html)
 	for vidx,image,name in match:
 		link = PATH + '?vidx=' + str(vidx)
 		item = xbmcgui.ListItem(name, iconImage=image)
@@ -53,18 +53,18 @@ def INDEX(idx, page):
 
 def play_video(video):
 	response = urllib.urlopen(BASE_URL + video)
-	link = response.read()
+	html = response.read()
 	response.close()
-	vurl = re.compile('ipadUrl: \'(.*?)\'').findall(link)
+	vurl = re.compile('ipadUrl: \'(.*?)\'').findall(html)
 	if len(vurl):
 		item = xbmcgui.ListItem(path=vurl[0])
 		xbmcplugin.setResolvedUrl(HANDLE, True, item)
 
 def PLAY(vidx):
 	response = urllib.urlopen(VIDEO_URL + vidx)
-	link=response.read()
+	html = response.read()
 	response.close()
-	vurl=re.compile('var url\s+= \'(.*?)\';').findall(link)
+	vurl = re.compile('var url\s+= \'(.*?)\';').findall(html)
 	if len(vurl):
 		play_video(vurl[0])
 
