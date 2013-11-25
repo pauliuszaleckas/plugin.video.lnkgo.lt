@@ -47,6 +47,7 @@ def add_all_video(vidx):
 		link = PATH + '?vidx=' + str(vidx)
 		item = xbmcgui.ListItem(name, iconImage=image)
 		item.setProperty('IsPlayable', 'true')
+		item.setProperty('Fanart_Image', image)
 		xbmcplugin.addDirectoryItem(HANDLE, link, item)
 
 def INDEX(idx):
