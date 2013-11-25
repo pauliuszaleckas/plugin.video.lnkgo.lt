@@ -26,7 +26,6 @@ import xbmcplugin
 BASE_URL = 'http://lnkgo.lt/'
 CATEGORY_URL = BASE_URL + 'video-kategorija/'
 VIDEO_URL = BASE_URL + 'video-perziura/'
-ORDER = '&orderBy=created'
 
 def CATEGORY():
 	response = urllib.urlopen(CATEGORY_URL)
@@ -38,9 +37,9 @@ def CATEGORY():
 		item = xbmcgui.ListItem(name)
 		xbmcplugin.addDirectoryItem(HANDLE, link, item, True)
 	xbmcplugin.endOfDirectory(HANDLE)
-		
-def INDEX(idx, page):
-	response = urllib.urlopen(CATEGORY_URL + idx + '?page=' + page + ORDER)
+
+def add_all_video(vidx):
+	response = urllib.urlopen(VIDEO_URL + vidx)
 	html = response.read()
 	response.close()
 	match = re.compile('<div class="image">\s*<div>\s*<a href="/video-perziura/(\d+?)/.+?"><img src="(.+?)\?.+?" alt=".*?" /><span class="videoPlay">&nbsp;</span></a>\s*</div>\s*</div>\s*<div class="info">\s*<div class="title">\s*<a href=".+?".*?>(.+?)&nbsp;<img src="img/arrow.link.png" alt="" /></a>').findall(html)
@@ -49,6 +48,14 @@ def INDEX(idx, page):
 		item = xbmcgui.ListItem(name, iconImage=image)
 		item.setProperty('IsPlayable', 'true')
 		xbmcplugin.addDirectoryItem(HANDLE, link, item)
+
+def INDEX(idx):
+	response = urllib.urlopen(CATEGORY_URL + idx)
+	html = response.read()
+	response.close()
+	match = re.search('<div class="image">\s*<div>\s*<a href="/video-perziura/(\d+?)/.+?">', html)
+	if match:
+		add_all_video(match.group(1));
 	xbmcplugin.endOfDirectory(HANDLE)
 
 def play_video(video):
@@ -74,7 +81,7 @@ if __name__ == '__main__':
 	PARAMS = urlparse.parse_qs(sys.argv[2][1:])
 
 	if 'prg_idx' in PARAMS:
-		INDEX(PARAMS['prg_idx'][0], PARAMS['page'][0])
+		INDEX(PARAMS['prg_idx'][0])
 	elif 'vidx' in PARAMS:
 		PLAY(PARAMS['vidx'][0])
 	else:
