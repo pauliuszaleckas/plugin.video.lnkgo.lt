@@ -36,7 +36,7 @@ def CATEGORY():
 	response.close()
 	match = re.compile('<a href="/video-kategorija/(\d+?)/.+?">(.+?)&nbsp;<img src="img/arrow.link.png" alt="" /></a>').findall(html)
 	for idx,name in match:
-		link = PATH + '?prg_idx=' + str(idx) + '&page=1'
+		link = PATH + '?prg_idx=' + str(idx)
 		item = xbmcgui.ListItem(name)
 		xbmcplugin.addDirectoryItem(HANDLE, link, item, True)
 	xbmcplugin.endOfDirectory(HANDLE)
