@@ -1,3 +1,6 @@
+[B]Version 0.3.0[/B]
+- Added "Naujausi video" category
+
 [B]Version 0.2.0[/B]
 - Show all videos, not only last 9
 - Show icons as fanart for videos
