@@ -28,6 +28,9 @@ CATEGORY_URL = BASE_URL + 'video-kategorija/'
 VIDEO_URL = BASE_URL + 'video-perziura/'
 
 def CATEGORY():
+	item = xbmcgui.ListItem('Naujausi video')
+	xbmcplugin.addDirectoryItem(HANDLE, PATH + '?latest=1', item, True)
+
 	response = urllib.urlopen(CATEGORY_URL)
 	html = response.read()
 	response.close()
@@ -59,6 +62,19 @@ def INDEX(idx):
 		add_all_video(match.group(1));
 	xbmcplugin.endOfDirectory(HANDLE)
 
+def LATEST():
+	response = urllib.urlopen(BASE_URL)
+	html = response.read()
+	response.close()
+	match = re.compile('<div class="photo">\s*<div>\s*<a href="/video-perziura/(\d+?)/.+?"><img src="(.+?)\?.+?" alt=".*?" /><span class="videoPlay">&nbsp;</span></a>\s*</div>\s*</div>\s*<div class="title">\s*<a href=".+?".*?>(.+?) <img').findall(html)
+	for vidx,image,name in match:
+		link = PATH + '?vidx=' + str(vidx)
+		item = xbmcgui.ListItem(name, iconImage=image)
+		item.setProperty('IsPlayable', 'true')
+		item.setProperty('Fanart_Image', image)
+		xbmcplugin.addDirectoryItem(HANDLE, link, item)
+	xbmcplugin.endOfDirectory(HANDLE)
+
 def play_video(video):
 	response = urllib.urlopen(BASE_URL + video)
 	html = response.read()
@@ -83,6 +99,8 @@ if __name__ == '__main__':
 
 	if 'prg_idx' in PARAMS:
 		INDEX(PARAMS['prg_idx'][0])
+	elif 'latest' in PARAMS:
+		LATEST()
 	elif 'vidx' in PARAMS:
 		PLAY(PARAMS['vidx'][0])
 	else:
