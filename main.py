@@ -45,7 +45,7 @@ def add_all_video(vidx):
 	response = urllib.urlopen(VIDEO_URL + vidx)
 	html = response.read()
 	response.close()
-	match = re.compile('<div class="image">\s*<div>\s*<a href="/video-perziura/(\d+?)/.+?"><img src="(.+?)\?.+?" alt=".*?" /><span class="videoPlay">&nbsp;</span></a>\s*</div>\s*</div>\s*<div class="info">\s*<div class="title">\s*<a href=".+?".*?>(.+?)&nbsp;<img src="img/arrow.link.png" alt="" /></a>').findall(html)
+	match = re.compile('<div class="image">\s*<div>\s*<a href="/video-perziura/(\d+?)/.+?"><img src="(.+?)\?.+?" alt=".*?" /><span class="videoPlay">&nbsp;</span></a>\s*</div>\s*</div>\s*<div class="info">\s*<div class="title">\s*<a href=".+?".*?>(.+?)&nbsp;<img').findall(html)
 	for vidx,image,name in match:
 		link = PATH + '?vidx=' + str(vidx)
 		item = xbmcgui.ListItem(name, iconImage=image)
